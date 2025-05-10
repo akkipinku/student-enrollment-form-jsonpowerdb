@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Enrollment Form</title>
+</head>
+<body>
+  <h2>Student Form</h2>
+  <form>
+    Roll No: <input type="text" id="rollNo"><br>
+    Full Name: <input type="text" id="fullName"><br>
+    Class: <input type="text" id="class"><br>
+    Birth Date: <input type="date" id="birthDate"><br><br>
+    <button type="button" onclick="saveData()">Save</button>
+  </form>
+
+  <script>
+    const token = "your-token-here";
+    const dbName = "SCHOOL-DB";
+    const relation = "STUDENT-TABLE";
+    const baseUrl = "http://api.login2explore.com:5577/api";
+
+    function saveData() {
+      const data = {
+        rollNo: document.getElementById("rollNo").value,
+        fullName: document.getElementById("fullName").value,
+        class: document.getElementById("class").value,
+        birthDate: document.getElementById("birthDate").value
+      };
+
+      const req = {
+        token: token,
+        dbName: dbName,
+        rel: relation,
+        jsonStr: JSON.stringify(data)
+      };
+
+      fetch(`${baseUrl}/iml`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req)
+      })
+      .then(res => res.json())
+      .then(resp => {
+        alert("Data Saved! Response ID: " + resp.data);
+      })
+      .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
